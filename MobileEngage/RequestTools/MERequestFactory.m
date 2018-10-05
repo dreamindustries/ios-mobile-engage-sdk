@@ -209,18 +209,8 @@
         [builder setMethod:method];
         
         NSMutableDictionary *payload = [NSMutableDictionary new];
-        
-        id appCode = requestContext.config.applicationCode;
-        
-        if (appCode) {
-            payload[@"application_id"] = appCode;
-        }
-        
-        id hardwareId = [EMSDeviceInfo hardwareId];
-        
-        if (hardwareId) {
-            payload[@"hardware_id"] = hardwareId;
-        }
+        payload[@"application_id"] = requestContext.config.applicationCode ?: @"NO_APP_ID";
+        payload[@"hardware_id"] = [EMSDeviceInfo hardwareId] ?: @"NO_HARDWARE_ID";
 
         if (requestContext.appLoginParameters.contactFieldId && requestContext.appLoginParameters.contactFieldValue) {
             payload[@"contact_field_id"] = requestContext.appLoginParameters.contactFieldId;
