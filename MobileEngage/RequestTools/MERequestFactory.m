@@ -207,10 +207,20 @@
     EMSRequestModel *requestModel = [EMSRequestModel makeWithBuilder:^(EMSRequestModelBuilder *builder) {
         [builder setUrl:url];
         [builder setMethod:method];
-        NSMutableDictionary *payload = [@{
-            @"application_id": requestContext.config.applicationCode,
-            @"hardware_id": [EMSDeviceInfo hardwareId]
-        } mutableCopy];
+        
+        NSMutableDictionary *payload = [NSMutableDictionary new];
+        
+        id appCode = requestContext.config.applicationCode;
+        
+        if (appCode) {
+            payload[@"application_id"] = appCode;
+        }
+        
+        id hardwareId = [EMSDeviceInfo hardwareId];
+        
+        if (hardwareId) {
+            payload[@"hardware_id"] = hardwareId;
+        }
 
         if (requestContext.appLoginParameters.contactFieldId && requestContext.appLoginParameters.contactFieldValue) {
             payload[@"contact_field_id"] = requestContext.appLoginParameters.contactFieldId;
