@@ -209,8 +209,8 @@
         [builder setMethod:method];
         
         NSMutableDictionary *payload = [NSMutableDictionary new];
-        payload[@"application_id"] = requestContext.config.applicationCode ?: @"NO_APP_ID";
-        payload[@"hardware_id"] = [EMSDeviceInfo hardwareId] ?: @"NO_HARDWARE_ID";
+        payload[@"application_id"] = requestContext.config.applicationCode ?: @"";
+        payload[@"hardware_id"] = [EMSDeviceInfo hardwareId] ?: @"";
 
         if (requestContext.appLoginParameters.contactFieldId && requestContext.appLoginParameters.contactFieldValue) {
             payload[@"contact_field_id"] = requestContext.appLoginParameters.contactFieldId;
@@ -222,8 +222,8 @@
         }
 
         [builder setPayload:payload];
-        [builder setHeaders:@{@"Authorization": [EMSAuthentication createBasicAuthWithUsername:requestContext.config.applicationCode
-                                                                                      password:requestContext.config.applicationPassword]}];
+        [builder setHeaders:@{@"Authorization": [EMSAuthentication createBasicAuthWithUsername:requestContext.config.applicationCode ?: @""
+                                                                                      password:requestContext.config.applicationPassword ?: @""]}];
     }];
     return requestModel;
 }
